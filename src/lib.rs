@@ -27,4 +27,31 @@ pub mod input {
             return Err("Error parsing input.");
         }
     }
+
+    #[derive(Copy, Clone)]
+    pub struct Node {
+        pub value: u64,
+        pub snake: bool,
+        pub checked: bool
+    }
+
+    impl Node {
+        fn new(value: u64) -> Node {
+            Node {
+                value,
+                snake: false,
+                checked: false
+            }
+        }
+    }
+
+    impl Node {
+        pub fn grid_from_u64(input: &u64) -> [[Node; 4]; 4] {
+            let mut out_grid: [[Node; 4]; 4] = [[Node::new(0); 4]; 4];
+            for shift in 0..16 {
+                out_grid[shift / 4][shift % 4] = Node::new((input & (0xf << shift*4)) >> shift*4);
+            }
+            out_grid
+        }
+    }
 }
