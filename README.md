@@ -19,3 +19,48 @@ Although theoretically a glyph could consist of 16 unconnected dots or 8 (minimu
 * The same input will yield the same output
 * Different input will yield a different output
 * The input hash can't be deduced from the output glyph
+
+## Examples
+
+5eb63bbbe01eeed093cb22bb8f5acdc3
+
+▓▓  ▓▓  ▓▓▓▓▓▓
+    ▓▓        
+▓▓▓▓▓▓  ▓▓  ▓▓
+        ▓▓    
+▓▓  ▓▓  ▓▓▓▓▓▓
+
+▓▓▓▓▓▓  ▓▓▓▓▓▓
+
+
+760df4a2857daeff08c875beb2dcb091
+
+▓▓▓▓▓▓  ▓▓  ▓▓
+        ▓▓    
+▓▓  ▓▓  ▓▓▓▓▓▓
+
+▓▓  ▓▓▓▓▓▓▓▓▓▓
+▓▓  ▓▓  
+▓▓  ▓▓  ▓▓▓▓▓▓
+
+
+59535ae31d32e29034b6944c402f3a0c
+
+▓▓▓▓▓▓▓▓▓▓  ▓▓
+▓▓          ▓▓
+▓▓  ▓▓▓▓▓▓  ▓▓
+▓▓      ▓▓    
+▓▓  ▓▓  ▓▓  ▓▓
+
+▓▓  ▓▓▓▓▓▓▓▓▓▓
+
+
+5b7249818459595a81f84722db2bdb49
+
+▓▓  ▓▓  ▓▓  ▓▓
+            ▓▓
+▓▓  ▓▓  ▓▓  ▓▓
+▓▓      ▓▓  ▓▓
+▓▓  ▓▓  ▓▓  ▓▓
+▓▓  ▓▓      ▓▓
+▓▓  ▓▓  ▓▓▓▓▓▓
