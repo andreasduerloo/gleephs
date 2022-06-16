@@ -21,7 +21,7 @@ fn main() {
                         let mut grid: [[Node; 4]; 4] = Node::grid_from_u64(&number);
 
                         for node in 0..16 {
-                            println!("The value for node ({},{}) is {}", (node / 4), (node % 4), &grid[(node / 4)][(node % 4)].value);
+                            println!("{}) The value for node ({},{}) is {}", node, (node / 4), (node % 4), &grid[(node / 4)][(node % 4)].value);
                         }
                     }
                 }

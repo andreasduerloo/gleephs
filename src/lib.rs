@@ -31,16 +31,14 @@ pub mod input {
     #[derive(Copy, Clone)]
     pub struct Node {
         pub value: u64,
-        pub snake: bool,
-        pub checked: bool
+        pub snake: bool
     }
 
     impl Node {
         fn new(value: u64) -> Node {
             Node {
                 value,
-                snake: false,
-                checked: false
+                snake: false
             }
         }
     }
@@ -55,3 +53,33 @@ pub mod input {
         }
     }
 }
+
+pub mod snakes {
+    use crate::input::*;
+
+    pub fn crawl(grid: &mut [[Node; 4]; 4], glyph: &mut [[char; 9]; 9], seed: &u64) -> u64 { // Returns how many unconnected nodes are left after the crawl
+        let start = scan_grid(grid);
+        // Find the next step: while let
+    }
+
+    fn scan_grid(grid: &[[Node; 4]; 4]) -> [u64; 2] { // Returns the coordinates of the next starting point
+        let mut highest_coords = [0, 0];
+        let mut highest_value = grid[0][0].value; // Start with a real value: it's possible the highest value is 0.
+
+        for node in 0..16 {
+            if grid[node / 4][node % 4].snake == false && grid[node / 4][node % 4].value > highest_value {
+                highest_coords = [node as u64 / 4, node as u64 % 4];
+                highest_value = grid[node / 4][node % 4].value;
+            } else {
+                continue
+            }
+        }
+        highest_coords
+    }
+
+    fn sniff_neighbors(grid: &[[Node; 4]; 4], seed: &u64) -> Option<[u64; 2]> { // Returns the coordinates for the next step or nothing.
+        // 
+    }
+}
+
+// ░ ▒ ▓
