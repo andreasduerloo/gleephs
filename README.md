@@ -32,7 +32,7 @@ Note that this might mean the algorithm can get into a loop.
 
 By blind luck, I have ran into a few pleasingly symmetric gleephs.
 My first and last name, hashed and then gleephed:
-`
+```
 ▓▓▓▓▓▓▓▓▓▓  ▓▓
         ▓▓      
 ▓▓▓▓▓▓  ▓▓▓▓▓▓
@@ -40,10 +40,10 @@ My first and last name, hashed and then gleephed:
 ▓▓  ▓▓  ▓▓  ▓▓
 ▓▓      ▓▓  ▓▓
 ▓▓▓▓▓▓▓▓▓▓  ▓▓
-`
+```
 
 My fiancée's first name and mine:
-`
+```
 ▓▓  ▓▓  ▓▓▓▓▓▓
 ▓▓          ▓▓
 ▓▓▓▓▓▓  ▓▓  ▓▓
@@ -51,10 +51,10 @@ My fiancée's first name and mine:
 ▓▓  ▓▓▓▓▓▓  ▓▓
 ▓▓      ▓▓
 ▓▓▓▓▓▓  ▓▓▓▓▓▓
-`
+```
 
 In general, the output is less oganized. See for example my fiancée's first and last name:
-`
+```
 ▓▓  ▓▓▓▓▓▓▓▓▓▓
             ▓▓  
 ▓▓  ▓▓▓▓▓▓  ▓▓
@@ -62,10 +62,10 @@ In general, the output is less oganized. See for example my fiancée's first and
 ▓▓  ▓▓  ▓▓▓▓▓▓
 ▓▓  ▓▓
 ▓▓  ▓▓▓▓▓▓▓▓▓▓
-`
+```
 
 And - unfortunately - 'gleephs' itself returns an unattractive glyph with lots of free nodes:
-`
+```
 ▓▓  ▓▓▓▓▓▓  ▓▓
 
 ▓▓  ▓▓▓▓▓▓  ▓▓
@@ -73,4 +73,4 @@ And - unfortunately - 'gleephs' itself returns an unattractive glyph with lots o
 ▓▓▓▓▓▓  ▓▓  ▓▓
 ▓▓
 ▓▓  ▓▓  ▓▓  ▓▓
-`
+```
