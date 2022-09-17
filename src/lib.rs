@@ -77,8 +77,11 @@ pub mod snakes {
         highest_coords
     }
 
-    fn sniff_neighbors(grid: &[[Node; 4]; 4], seed: &u64) -> Option<[u64; 2]> { // Returns the coordinates for the next step or nothing.
-        // 
+    fn sniff_neighbors(grid: &[[Node; 4]; 4], start: &[u64; 2]) -> Option<[u64; 2]> { // Returns the coordinates for the next step or nothing.
+        // Return the co-ordinates for the next node, if any.
+        // Rules: the next node is the immediately adjoining (up, right, down, left) node with an equal value, or
+        // the immedaitely adjoining node with the closest lower value.
+        // In case of a tie, the following order is used: up > right > down > left.
     }
 }
 
