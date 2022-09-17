@@ -58,6 +58,7 @@ pub mod glyphs {
 
     fn count_neighbors(input: &u16) -> u16 {
         // Returns a bitmask of bits to be flipped because they have too many neighbors
+        // This could theoretically end in a loop
         let bitmasks: [u16; 16] = [
             0x12,
             0x25,
@@ -132,7 +133,7 @@ pub mod glyphs {
         return output;
     }
 
-    fn draw_glyph(input: &u16) {
+    fn draw_glyph(input: &u16) { // Can be improved
         let mut output: String = "".to_string();
     
         // Top line, compare with right neighbor
