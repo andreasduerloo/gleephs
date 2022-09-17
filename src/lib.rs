@@ -16,11 +16,11 @@ pub mod input {
         }
     }
 
-    pub fn squash(input: &str) -> Result<u64, &str> {
+    pub fn fold(input: &str) -> Result<u64, &str> {
         let halves: [&str; 2] = [&input[0..(input.len()/2)], &input[(input.len()/2)..]];
-
+    
         let halves_hex = (u64::from_str_radix(halves[0], 16), u64::from_str_radix(halves[1], 16));
-
+    
         if let (Ok(a), Ok(b)) = halves_hex {
             return Ok(a^b);
         } else {
@@ -28,60 +28,188 @@ pub mod input {
         }
     }
 
-    #[derive(Copy, Clone)]
-    pub struct Node {
-        pub value: u64,
-        pub snake: bool
-    }
-
-    impl Node {
-        fn new(value: u64) -> Node {
-            Node {
-                value,
-                snake: false
-            }
+    pub fn squash(input: &u64) -> u16 {
+        let mut output: u64 = 0x0;
+        for i in 0..16 {
+            output = output | ((input >> 4*i) & 0x1) << i;
         }
-    }
-
-    impl Node {
-        pub fn grid_from_u64(input: &u64) -> [[Node; 4]; 4] {
-            let mut out_grid: [[Node; 4]; 4] = [[Node::new(0); 4]; 4];
-            for shift in 0..16 {
-                out_grid[shift / 4][shift % 4] = Node::new((input & (0xf << shift*4)) >> shift*4);
-            }
-            out_grid
-        }
+        return output as u16;
     }
 }
 
-pub mod snakes {
-    use crate::input::*;
-
-    pub fn crawl(grid: &mut [[Node; 4]; 4], glyph: &mut [[char; 9]; 9], seed: &u64) -> u64 { // Returns how many unconnected nodes are left after the crawl
-        let start = scan_grid(grid);
-        // Find the next step: while let
-    }
-
-    fn scan_grid(grid: &[[Node; 4]; 4]) -> [u64; 2] { // Returns the coordinates of the next starting point
-        let mut highest_coords = [0, 0];
-        let mut highest_value = grid[0][0].value; // Start with a real value: it's possible the highest value is 0.
-
-        for node in 0..16 {
-            if grid[node / 4][node % 4].snake == false && grid[node / 4][node % 4].value > highest_value {
-                highest_coords = [node as u64 / 4, node as u64 % 4];
-                highest_value = grid[node / 4][node % 4].value;
-            } else {
-                continue
+pub mod glyphs {
+    pub fn count_neighbors(input: &u16) -> u16 {
+        // Returns a bitmask of bits to be flipped because they have too many neighbors
+        let bitmasks: [u16; 16] = [
+            0x12,
+            0x25,
+            0x4A,
+            0x84,
+            0x121,
+            0x252,
+            0x4A4,
+            0x848,
+            0x1210,
+            0x2520,
+            0x4A40,
+            0x8480,
+            0x2100,
+            0x5200,
+            0xA400,
+            0x4800
+        ];
+    
+        let mut output: u16 = 0x0;
+    
+        for i in 0..16 {
+            // Get the value for that bit
+            let value = input >> i & 0x1;
+    
+            match value {
+                0 => {
+                    let neighbors: u16 = !input & bitmasks[i];
+                    match count_bits(&neighbors) {
+                        0 | 1 | 2 => {
+                            continue
+                        },
+                        _ => {
+                            output = output | 0x1 << i
+                        }
+                    }
+                },
+                _ => {
+                    let neighbors: u16 = input & bitmasks[i];
+                    match count_bits(&neighbors) {
+                        0 | 1 | 2 => {
+                            continue
+                        },
+                        _ => {
+                            output = output | 0x1 << i
+                        }
+                    }
+                }
             }
         }
-        highest_coords
+        return output;
     }
 
-    fn sniff_neighbors(grid: &[[Node; 4]; 4], start: &[u64; 2]) -> Option<[u64; 2]> { // Returns the coordinates for the next step or nothing.
-        // Return the co-ordinates for the next node, if any.
-        // Rules: the next node is the immediately adjoining (up, right, down, left) node with an equal value, or
-        // the immedaitely adjoining node with the closest lower value.
-        // In case of a tie, the following order is used: up > right > down > left.
+    pub fn count_bits(input: &u16) -> u16 {
+        let mut output: u16 = 0;
+        for i in 0..16 {
+            output += input >> i & 0x1;
+        }
+        return output;
+    }
+
+    pub fn flip_bits(input: &u16, mask: &u16) -> u16 {
+        let mut output: u16 = 0x0;
+        for i in 0..16 {
+            if mask >> i == 1 {
+                output = output | 0x1 << i & (!(input >> i & 0x1) << i);
+            }
+            else {
+                output = output | input & (0x1 << i);
+            }
+        }
+        return output;
+    }
+
+    pub fn draw_glyph(input: &u16) {
+        let mut output: String = "".to_string();
+    
+        // Top line, compare with right neighbor
+        for i in 0..3 {
+            output.push_str("▓▓");
+            if input & 0x1 << (15 - i) == (input & 0x1 << 15 - (i + 1)) << 1 {
+                output.push_str("▓▓");
+            }
+            else {
+                output.push_str("  ");
+            }
+        }
+        output.push_str("▓▓");
+        println!("{}", output);
+        
+        // First verticals, compare with neighbor below
+        output = "".to_string();
+        for i in 0..4 {
+            if input & 0x1 << (15 - i) == (input & ( 0x1 << (11 - i))) << 4 {
+                output.push_str("▓▓");
+            }
+            else {
+                output.push_str("  ");
+            }
+            output.push_str("  ");
+        }
+        println!("{}", output);
+    
+        // Second line
+        output = "".to_string();
+        for i in 0..3 {
+            output.push_str("▓▓");
+            if input & 0x1 << (11 - i) == (input & 0x1 << 11 - (i + 1)) << 1 {
+                output.push_str("▓▓");
+            }
+            else {
+                output.push_str("  ");
+            }
+        }
+        output.push_str("▓▓");
+        println!("{}", output);
+    
+        // Second verticals, compare with neighbor below
+        output = "".to_string();
+        for i in 0..4 {
+            if input & 0x1 << (11 - i) == (input & ( 0x1 << (7 - i))) << 4 {
+                output.push_str("▓▓");
+            }
+            else {
+                output.push_str("  ");
+            }
+            output.push_str("  ");
+        }
+        println!("{}", output);
+    
+        // Third line
+        output = "".to_string();
+        for i in 0..3 {
+            output.push_str("▓▓");
+            if input & 0x1 << (7 - i) == (input & 0x1 << 7 - (i + 1)) << 1 {
+                output.push_str("▓▓");
+            }
+            else {
+                output.push_str("  ");
+            }
+        }
+        output.push_str("▓▓");
+        println!("{}", output);
+    
+        // Third verticals, compare with neighbor below
+        output = "".to_string();
+        for i in 0..4 {
+            if input & 0x1 << (7 - i) == (input & ( 0x1 << (3 - i))) << 4 {
+                output.push_str("▓▓");
+            }
+            else {
+                output.push_str("  ");
+            }
+            output.push_str("  ");
+        }
+        println!("{}", output);
+    
+        // Fourth line
+        output = "".to_string();
+        for i in 0..3 {
+            output.push_str("▓▓");
+            if input & 0x1 << (3 - i) == (input & 0x1 << 3 - (i + 1)) << 1 {
+                output.push_str("▓▓");
+            }
+            else {
+                output.push_str("  ");
+            }
+        }
+        output.push_str("▓▓");
+        println!("{}", output);
     }
 }
 

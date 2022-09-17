@@ -1,5 +1,6 @@
 use std::env;
 use gleephs::input::*;
+use gleephs::glyphs::*;
 
 fn main() {
     let mut arguments = env::args();
@@ -14,20 +15,20 @@ fn main() {
 
             while let Some(content) = hash {
                 if is_hex(&content) {
-                    let glyph_input = squash(&content);
+                    let glyph_input = fold(&content);
                     
                     if let Ok(number) = glyph_input {
-                        println!("Raw input: {:x}", number);
-                        let mut grid: [[Node; 4]; 4] = Node::grid_from_u64(&number);
-
-                        for node in 0..16 {
-                            println!("{}) The value for node ({},{}) is {}", node, (node / 4), (node % 4), &grid[(node / 4)][(node % 4)].value);
+                        let mut squashed_num = squash(&number);
+                        let mut neighbor_mask = count_neighbors(&squashed_num);
+                        while neighbor_mask != 0 {
+                            squashed_num = flip_bits(&squashed_num, &neighbor_mask);
+                            neighbor_mask = count_neighbors(&squashed_num);
                         }
+                        draw_glyph(&squashed_num);
                     }
                 }
-
                 hash = arguments.next();
-            }
+            }            
         }
     }
 }
