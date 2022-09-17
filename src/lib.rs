@@ -38,7 +38,25 @@ pub mod input {
 }
 
 pub mod glyphs {
-    pub fn count_neighbors(input: &u16) -> u16 {
+    use crate::input::*;
+
+    pub fn run(content: &str) {
+        if is_hex(&content) {
+            let glyph_input = fold(&content);
+            
+            if let Ok(number) = glyph_input {
+                let mut squashed_num = squash(&number);
+                let mut neighbor_mask = count_neighbors(&squashed_num);
+                while neighbor_mask != 0 {
+                    squashed_num = flip_bits(&squashed_num, &neighbor_mask);
+                    neighbor_mask = count_neighbors(&squashed_num);
+                }
+                draw_glyph(&squashed_num);
+            }
+        }
+    }
+
+    fn count_neighbors(input: &u16) -> u16 {
         // Returns a bitmask of bits to be flipped because they have too many neighbors
         let bitmasks: [u16; 16] = [
             0x12,
@@ -93,7 +111,7 @@ pub mod glyphs {
         return output;
     }
 
-    pub fn count_bits(input: &u16) -> u16 {
+    fn count_bits(input: &u16) -> u16 {
         let mut output: u16 = 0;
         for i in 0..16 {
             output += input >> i & 0x1;
@@ -114,7 +132,7 @@ pub mod glyphs {
         return output;
     }
 
-    pub fn draw_glyph(input: &u16) {
+    fn draw_glyph(input: &u16) {
         let mut output: String = "".to_string();
     
         // Top line, compare with right neighbor
