@@ -10,7 +10,9 @@ Looking at images of those glyphs, a couple of rules can be deduced:
 Although theoretically a glyph could consist of 16 unconnected dots or 8 (minimum length) "snakes", the art in the game shows a number of clear preferences:
 * Most glyphs have one, two, three or four "snakes" of varying length.
 * At most there are four unconnected dots, the rest of the glyph is taken up by snakes.
-These two 'rules' are not enforced by the code. 
+These two 'rules' are not enforced by the code.
+
+[Container image](https://hub.docker.com/repository/docker/andreasduerloo/gleephs)
 
 ## What does it do?
 
