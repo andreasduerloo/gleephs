@@ -133,13 +133,12 @@ pub mod glyphs {
         return output;
     }
 
-    fn draw_glyph(input: &u16) { // Can be improved
+    fn draw_horizontal(input: &u16, offset: usize) {
         let mut output: String = "".to_string();
     
-        // Top line, compare with right neighbor
         for i in 0..3 {
             output.push_str("▓▓");
-            if input & 0x1 << (15 - i) == (input & 0x1 << 15 - (i + 1)) << 1 {
+            if input & 0x1 << (offset - i) == (input & 0x1 << offset - (i + 1)) << 1 {
                 output.push_str("▓▓");
             }
             else {
@@ -148,11 +147,13 @@ pub mod glyphs {
         }
         output.push_str("▓▓");
         println!("{}", output);
-        
-        // First verticals, compare with neighbor below
-        output = "".to_string();
+    }
+
+    fn draw_vertical(input: &u16, offset: usize) {
+        let mut output: String = "".to_string();
+
         for i in 0..4 {
-            if input & 0x1 << (15 - i) == (input & ( 0x1 << (11 - i))) << 4 {
+            if input & 0x1 << (offset - i) == (input & ( 0x1 << ((offset - 4) - i))) << 4 {
                 output.push_str("▓▓");
             }
             else {
@@ -161,74 +162,16 @@ pub mod glyphs {
             output.push_str("  ");
         }
         println!("{}", output);
-    
-        // Second line
-        output = "".to_string();
-        for i in 0..3 {
-            output.push_str("▓▓");
-            if input & 0x1 << (11 - i) == (input & 0x1 << 11 - (i + 1)) << 1 {
-                output.push_str("▓▓");
-            }
-            else {
-                output.push_str("  ");
-            }
-        }
-        output.push_str("▓▓");
-        println!("{}", output);
-    
-        // Second verticals, compare with neighbor below
-        output = "".to_string();
-        for i in 0..4 {
-            if input & 0x1 << (11 - i) == (input & ( 0x1 << (7 - i))) << 4 {
-                output.push_str("▓▓");
-            }
-            else {
-                output.push_str("  ");
-            }
-            output.push_str("  ");
-        }
-        println!("{}", output);
-    
-        // Third line
-        output = "".to_string();
-        for i in 0..3 {
-            output.push_str("▓▓");
-            if input & 0x1 << (7 - i) == (input & 0x1 << 7 - (i + 1)) << 1 {
-                output.push_str("▓▓");
-            }
-            else {
-                output.push_str("  ");
-            }
-        }
-        output.push_str("▓▓");
-        println!("{}", output);
-    
-        // Third verticals, compare with neighbor below
-        output = "".to_string();
-        for i in 0..4 {
-            if input & 0x1 << (7 - i) == (input & ( 0x1 << (3 - i))) << 4 {
-                output.push_str("▓▓");
-            }
-            else {
-                output.push_str("  ");
-            }
-            output.push_str("  ");
-        }
-        println!("{}", output);
-    
-        // Fourth line
-        output = "".to_string();
-        for i in 0..3 {
-            output.push_str("▓▓");
-            if input & 0x1 << (3 - i) == (input & 0x1 << 3 - (i + 1)) << 1 {
-                output.push_str("▓▓");
-            }
-            else {
-                output.push_str("  ");
-            }
-        }
-        output.push_str("▓▓");
-        println!("{}", output);
+    }
+
+    fn draw_glyph(input: &u16) {
+        draw_horizontal(input, 15);
+        draw_vertical(input, 15);
+        draw_horizontal(input, 11);
+        draw_vertical(input, 11);
+        draw_horizontal(input, 7);
+        draw_vertical(input, 7);
+        draw_horizontal(input, 3);
     }
 }
 
