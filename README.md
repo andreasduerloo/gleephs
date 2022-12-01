@@ -5,7 +5,7 @@
 Looking at images of those glyphs, a couple of rules can be deduced:
 * Every glyph is a grid of 4 x 4 'dots'.
 * These dots _can_ be connected to their vertical or horizontal neighbors. There are no diagonal connections.
-* A dot can be connection to two, one, or none of its neighbors.
+* A dot can be connected to two, one, or none of its neighbors.
 
 Although theoretically a glyph could consist of 16 unconnected dots or 8 (minimum length) "snakes", the art in the game shows a number of clear preferences:
 * Most glyphs have one, two, three or four "snakes" of varying length.
