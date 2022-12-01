@@ -18,7 +18,7 @@ These two 'rules' are not enforced by the code.
 
 **gleephs** takes an MD5 hash as its input. This hash is then converted into a glyph. Care has been taken to retain some hash-like qualities:
 * The same input will yield the same output
-* The input hash can't be deduced from the output glyph
+* The input hash can't be deduced from the output glyph.
 Of course, because there are far fewer possible glyphs than MD5 hashes, collisions (i.e. different inputs with identical outputs) are far more likely.
 
 The algorithm works as follows:
